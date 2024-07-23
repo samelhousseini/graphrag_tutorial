@@ -1,0 +1,76 @@
+
+-Goal-
+Given a text document that is potentially relevant to this activity, first identify all entities needed from the text in order to capture the information and ideas in the text.
+Next, report all relationships among the identified entities.
+
+-Steps-
+1. Identify all entities. For each identified entity, extract the following information:
+- entity_name: Name of the entity, capitalized
+- entity_type: Suggest several labels or categories for the entity. The categories should not be specific, but should be as general as possible.
+- entity_description: Comprehensive description of the entity's attributes and activities
+Format each entity as ("entity"{tuple_delimiter}<entity_name>{tuple_delimiter}<entity_type>{tuple_delimiter}<entity_description>
+
+2. From the entities identified in step 1, identify all pairs of (source_entity, target_entity) that are *clearly related* to each other.
+For each pair of related entities, extract the following information:
+- source_entity: name of the source entity, as identified in step 1
+- target_entity: name of the target entity, as identified in step 1
+- relationship_description: explanation as to why you think the source entity and the target entity are related to each other
+- relationship_strength: a numeric score indicating strength of the relationship between the source entity and target entity
+ Format each relationship as ("relationship"{tuple_delimiter}<source_entity>{tuple_delimiter}<target_entity>{tuple_delimiter}<relationship_description>{tuple_delimiter}<relationship_strength>)
+
+3. Return output in English as a single list of all the entities and relationships identified in steps 1 and 2. Use **{record_delimiter}** as the list delimiter.
+
+4. When finished, output {completion_delimiter}
+
+-Examples-
+######################
+
+Example 1:
+
+text:
+ilot system that enables semi-autonomous driving capabilities. Using cameras, ultrasonic sensors, and radar, the system can control steering, acceleration, and braking under certain conditions, enhancing driver safety and convenience.
+
+Tesla's commitment to sustainability is evident in the Model S's vegan interior option, which uses synthetic materials instead of leather. This option caters to environmentally conscious consumers seeking to reduce their carbon footprint and animal product consumption.
+
+The Model S has a unique glass roof that provides passengers with a panoramic view of the sky, enhancing the driving experience with an open, airy feel. This feature also includes UV and infrared protection to keep the cabin comfortable in various weather conditions.
+
+Tesla's supercharger network allows Model S owners to charge their vehicles quickly while on long trips, providing up to 200 miles of range in just 15 minutes of charging. This extensive network ensures convenience and minimal downtime for Tesla drivers.
+
+The Model S's performance version, the Plaid, can reach top speeds of up to 200 mph,
+------------------------
+output:
+("entity"{tuple_delimiter}TESLA{tuple_delimiter}ORGANIZATION, COMPANY{tuple_delimiter}Tesla is an automotive company known for its electric vehicles and commitment to sustainability)
+{record_delimiter}
+("entity"{tuple_delimiter}MODEL S{tuple_delimiter}PRODUCT, VEHICLE{tuple_delimiter}The Model S is a luxury electric sedan produced by Tesla, featuring advanced technology and sustainability options)
+{record_delimiter}
+("entity"{tuple_delimiter}AUTOPILOT SYSTEM{tuple_delimiter}TECHNOLOGY, SYSTEM{tuple_delimiter}The Autopilot system is a semi-autonomous driving technology developed by Tesla, using cameras, ultrasonic sensors, and radar to control steering, acceleration, and braking under certain conditions)
+{record_delimiter}
+("entity"{tuple_delimiter}VEGAN INTERIOR OPTION{tuple_delimiter}FEATURE, OPTION{tuple_delimiter}The vegan interior option in the Model S uses synthetic materials instead of leather, catering to environmentally conscious consumers)
+{record_delimiter}
+("entity"{tuple_delimiter}GLASS ROOF{tuple_delimiter}FEATURE, COMPONENT{tuple_delimiter}The glass roof in the Model S provides a panoramic view of the sky and includes UV and infrared protection)
+{record_delimiter}
+("entity"{tuple_delimiter}SUPERCHARGER NETWORK{tuple_delimiter}INFRASTRUCTURE, NETWORK{tuple_delimiter}Tesla's supercharger network allows Model S owners to charge their vehicles quickly, providing up to 200 miles of range in just 15 minutes)
+{record_delimiter}
+("entity"{tuple_delimiter}PLAID{tuple_delimiter}PRODUCT, VEHICLE{tuple_delimiter}The Plaid is the performance version of the Model S, capable of reaching top speeds of up to 200 mph)
+{record_delimiter}
+("relationship"{tuple_delimiter}TESLA{tuple_delimiter}MODEL S{tuple_delimiter}Tesla manufactures the Model S, a luxury electric sedan{tuple_delimiter}10)
+{record_delimiter}
+("relationship"{tuple_delimiter}MODEL S{tuple_delimiter}AUTOPILOT SYSTEM{tuple_delimiter}The Model S is equipped with Tesla's Autopilot system for semi-autonomous driving{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}MODEL S{tuple_delimiter}VEGAN INTERIOR OPTION{tuple_delimiter}The Model S offers a vegan interior option using synthetic materials{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}MODEL S{tuple_delimiter}GLASS ROOF{tuple_delimiter}The Model S features a unique glass roof with UV and infrared protection{tuple_delimiter}6)
+{record_delimiter}
+("relationship"{tuple_delimiter}MODEL S{tuple_delimiter}SUPERCHARGER NETWORK{tuple_delimiter}Model S owners can use Tesla's supercharger network for quick charging{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}MODEL S{tuple_delimiter}PLAID{tuple_delimiter}The Plaid is the high-performance version of the Model S{tuple_delimiter}8)
+{completion_delimiter}
+#############################
+
+
+
+-Real Data-
+######################
+text: {input_text}
+######################
+output:
